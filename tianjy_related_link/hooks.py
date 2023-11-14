@@ -7,13 +7,14 @@ app_description = "Tianjy Related Link"
 app_email = "Tianjy"
 app_license = "MIT"
 
-# Includes in <head>
-# ------------------
+after_migrate = 'tianjy_related_link.migrate.run'
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/tianjy_related_link/css/tianjy_related_link.css"
-# app_include_js = "/assets/tianjy_related_link/js/tianjy_related_link.js"
+app_include_js = "tianjy_related_link.bundle.js"
 
+# Includes in <head>
+# ------------------
 # include js, css files in header of web template
 # web_include_css = "/assets/tianjy_related_link/css/tianjy_related_link.css"
 # web_include_js = "/assets/tianjy_related_link/js/tianjy_related_link.js"
