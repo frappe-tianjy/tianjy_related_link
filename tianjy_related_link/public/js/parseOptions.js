@@ -1,5 +1,5 @@
 // @ts-check
-const eqRegex = /^([^\n~!@#$%^&*()<>?+{}[\]|\\:;"',=]+)([%]|#[^:=#\n]+#)?(\$?)(:|=)(.*)$/;
+const eqRegex = /^([^\n~!@#$%^&*()<>?+{}[\]|\\:;"',=]+)([%]|#[^:=#\n]+#)?(=|:|!:)(.*)$/;
 
 /** @param {string} t */
 function parseOp(t) {
@@ -39,9 +39,9 @@ export default function parseOptions(options) {
 		if (!s) { continue; }
 		const key = s[1].trim();
 		const op = parseOp(s[2]);
-		const required = Boolean(s[3]);
-		const isField = s[4] === ':';
-		const value = s[5].trim();
+		const required = s[3][0] === '!';
+		const isField = s[3] !== '=';
+		const value = s[4].trim();
 		if (isField) {
 			if (!value) { continue; }
 			filters.push({ key, op, required, field: value });
