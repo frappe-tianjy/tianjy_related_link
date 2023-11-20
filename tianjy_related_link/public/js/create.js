@@ -1,6 +1,6 @@
 // @ts-check
 
-import parseOptions from './parseOptions';
+import { parse as parseOptions, getFilters } from './filter';
 
 /**
  *
@@ -11,9 +11,9 @@ export default function create(Class) {
 	return class ControlTianjyRelatedLink extends Class {
 		/** @type {string} */
 		__oldOptions = '';
-		/** @type {import('./parseOptions').Options?} */
+		/** @type {import('./filter').Options?} */
 		__parsedOptions = null;
-		/** @return {import('./parseOptions').Options?} */
+		/** @return {import('./filter').Options?} */
 		getParsedOptions() {
 			let options = super.get_options();
 			if (!options || typeof options !== 'string') { return null; }
@@ -49,18 +49,7 @@ export default function create(Class) {
 			if (input) { return input.val(); }
 		}
 		set_custom_query(args) {
-			const filters = [];
-			for (const {key, value, required, op, field} of this.getParsedOptions()?.filters || []) {
-				const val = field ? this.getFieldValue(field) : value;
-				if (required && (val === null || val === '')){
-					continue;
-				}
-				if (val === null && op === '=') {
-					filters.push([key, 'is', 'not set']);
-					continue;
-				}
-				if (val !== undefined) { filters.push([key, op, val]); }
-			}
+			const filters = getFilters(f=> this.getFieldValue(f), this.getParsedOptions()?.filters);
 			if (!filters?.length) { return; }
 			args.filters = filters;
 		}

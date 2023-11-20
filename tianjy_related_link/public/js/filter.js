@@ -27,7 +27,7 @@ function parseOp(t) {
  * @param {string} options
  * @returns {Options?}
  */
-export default function parseOptions(options) {
+export function parse(options) {
 	if (!options || typeof options !== 'string') { return null; }
 	const list = options.split('\n').filter(Boolean);
 	const doctype = list.shift();
@@ -51,4 +51,31 @@ export default function parseOptions(options) {
 	}
 	return { doctype, filters };
 
+}
+/**
+ *
+ * @param {((f: string) => any) | Record<string, any>} data
+ * @param {FilterValue[]?} [filterValues]
+ * @returns
+ */
+export function getFilters(data, filterValues) {
+	/** @type {(f: string) => any} */
+	// eslint-disable-next-line no-nested-ternary
+	const getFieldValue = typeof data === 'function' ? /** @type {(f: string) => any} */(data)
+		:typeof data === 'object' && data ? f => f in data ? data[f] ?? null : null
+			: () => null;
+	const filters = [];
+	for (const {key, value, required, op, field} of filterValues || []) {
+		const val = field ? getFieldValue(field) : value;
+		if (required && (val === null || val === '')){
+			continue;
+		}
+		if (val === null && op === '=') {
+			filters.push([key, 'is', 'not set']);
+			continue;
+		}
+		if (val !== undefined) { filters.push([key, op, val]); }
+	}
+	if (!filters?.length) { return; }
+	return filters;
 }
