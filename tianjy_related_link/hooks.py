@@ -8,6 +8,12 @@ app_email = "Tianjy"
 app_license = "MIT"
 
 after_migrate = 'tianjy_related_link.migrate.run'
+# Installation
+# ------------
+
+# before_install = "tianjy_related_link.install.before_install"
+after_install = 'tianjy_related_link.migrate.run'
+
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/tianjy_related_link/css/tianjy_related_link.css"
@@ -60,12 +66,6 @@ app_include_js = "tianjy_related_link.bundle.js"
 #	"methods": "tianjy_related_link.utils.jinja_methods",
 #	"filters": "tianjy_related_link.utils.jinja_filters"
 # }
-
-# Installation
-# ------------
-
-# before_install = "tianjy_related_link.install.before_install"
-# after_install = "tianjy_related_link.install.after_install"
 
 # Uninstallation
 # ------------
