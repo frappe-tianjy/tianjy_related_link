@@ -1,7 +1,7 @@
 [project]
 name = "tianjy_related_link"
 authors = [
-    { name = "天玑 Tianjy", email = "a@a.com"}
+    { name = "天玑 Tianjy", email = "fengmf778@gmail.com"}
 ]
 description = "天玑关联链接 Tianjy Related Link"
 requires-python = ">=3.10"
